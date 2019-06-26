@@ -1,5 +1,5 @@
 {
-  "name": "single-value-sparkline",
+  "name": "scatter-plot",
   "version": "0.0.1",
   "license": "MIT",
   "directories": {
@@ -11,7 +11,7 @@
     "watch": "webpack --config webpack.config.js --watch --progress",
     "start:dev": "webpack-dev-server"
   },
-  "author": "",
+  "author": "ehdunbar",
   "private": true,
   "devDependencies": {
     "css-loader": "^0.28.11",
@@ -19,7 +19,8 @@
     "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "3.10.0",
     "webpack-dev-middleware": "^3.6.2",
-    "webpack-dev-server": "^2.11.5",
+    "webpack-dev-server": ">=3.1.11",
+    "js-yaml": ">=3.13.1",
     "webpack-hot-middleware": "^2.24.3"
   },
   "dependencies": {
