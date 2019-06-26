@@ -4,10 +4,10 @@ const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 var webpackConfig = {
   entry: {
-    src: './src/scatter-chart.js',
+    src: './src/scatter-plot.js',
   },
   output: {
-    filename: "scatter-chart.js",
+    filename: "scatter-plot.js",
     path: path.join(__dirname, "dist"),
     library: "[name]",
     libraryTarget: "umd"
@@ -25,7 +25,7 @@ var webpackConfig = {
     ]
   },
   stats: {
-    warningsFilter: /export.*liquidfillgauge.*was not found/
+    warningsFilter: /export.*scatterplot.*was not found/
   },
   watch: true,
   devServer: {
