@@ -14,10 +14,10 @@
   "author": "ehdunbar",
   "private": true,
   "devDependencies": {
-    "css-loader": "^0.28.11",
+    "css-loader": "^3.0.0",
     "to-string-loader": "^1.1.5",
     "uglifyjs-webpack-plugin": "^1.2.5",
-    "webpack": "3.10.0",
+    "webpack": "^4.35.0",
     "webpack-dev-middleware": "^3.6.2",
     "webpack-dev-server": ">=3.1.11",
     "js-yaml": ">=3.13.1",
