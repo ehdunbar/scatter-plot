@@ -11,27 +11,26 @@ looker.plugins.visualizations.add({
       default: ["#5b5d9a"]
     }
   },
-
   // Looker runs this function first
   create: function(element, config) {
     element.innerHTML = `
       <style>
-        .scatter-chart {
+        .scatter-plot {
           width: 100%;
           height: 100%;
         }
         .highcharts-container {
-        } 
-        
+        }
       </style>
     `;
 
-    let container = element.appendChild(document.createElement("div"));
-    container.className = "scatter-chart";
+    var container = element.appendChild(document.createElement("div"));
+    container.className = "scatter-plot";
 
     this._textElement = container.appendChild(document.createElement("div"));
 
-    this.chart = ReactDOM.render(
+    // I don't know what this does to be honest
+    this.scatter = ReactDOM.render(
       <Scatter
         done={false}
       />
@@ -39,26 +38,21 @@ looker.plugins.visualizations.add({
     );
 
   },
-
-  // When Looker receives data from the query, we run this guy
-  // Changing viz config stuff forces a rerun on this guy
+  // Called when state changes
   updateAsync: function(data, element, config, queryResponse, details, done) {
+
     this.clearErrors();
+
     if (queryResponse.fields.dimensions.length < 3) {
-      this.addError({title: "Not Enough Minerals (In a StarCraft Voice)", message: "You must construct additional dimensions (again, in a StarCraft voice)."});
+      this.addError({title: "Not Enough Dimensions", message: "This Visualization requires 3 dimensions."});
       return;
     }
 
-    
+    // console.log(data);
 
     this.scatter = ReactDOM.render(
-
-      // CAN FEED THESE INTO Scatter.js instead of InBetweenClass (with some refactoring) which means I have access to all the InBetweenClass stuff
-      // in Scatter.js
       <Scatter
-        // From InBetweenClass
         key="scatter_chart"
-
         config={config}
         data={data}
         done={done}
@@ -66,7 +60,6 @@ looker.plugins.visualizations.add({
       />,
       this._textElement
     );
-
 
     done()
   }
