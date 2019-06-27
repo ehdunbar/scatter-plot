@@ -86,12 +86,12 @@ export default class Scatter extends React.Component {
 
   render() {
 
-    // Setting axis
     this.options.xAxis.title.text = this.props.queryResponse.fields.dimensions[0].label;
     this.options.yAxis.title.text = this.props.queryResponse.fields.dimensions[1].label;
 
     const columnNameArray = this.props.queryResponse.fields.dimensions;
     var dataArray = this.props.data
+
 
     const formatedData = dataArray.map(row => {
 
@@ -119,80 +119,20 @@ export default class Scatter extends React.Component {
       };
     });
 
-    console.log("New Data Below")
-    console.log(formatedData);
+    const options = { ...this.options };
+    options.series = [];
 
-
-    //////////////////////////////////////////////////////////////////////////
-
-    const options = { ...this.options }
-    options.series = []
-
-    //////////////////////////// COLOR ASSIGNMENT ////////////////////////////
-
-    /*
-        1. Figure out how many colors the user provided; say X
-        2. Divide that into X chunks, ordered in smallest to biggest
-        3. Then stuff each data point into a given series based on which chunk they fall into
-    */
-    var number_of_colors = this.props.config.color.length
-    const MAX_PROBABILITY = 100
-    var bucket_step = MAX_PROBABILITY/number_of_colors
-    var buckets = []
-
-    // Create the buckets
-    for(var i = number_of_colors - 1; i >= 0; i--) {
-        var bucket_ceiling = 100 - bucket_step*i
-
-        buckets.push(bucket_ceiling) // Create a new bucket with ceiling = bucket_ceiling
-        options.series.push({}) // Create a series per bucket
-
-
-        options.series[(number_of_colors - 1) - i].name = "<" + Math.round(bucket_ceiling, 2).toString()
-        // options.series[(number_of_colors - 1) - i].color = this.props.config.color[(number_of_colors - 1) - i]
-
-        // Testing opacity //
-        var hexToRGB = function (hex) {
-            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-            return result ? {
-                r: parseInt(result[1], 16),
-                g: parseInt(result[2], 16),
-                b: parseInt(result[3], 16)
-            } : null;
-        }
-        options.series[(number_of_colors - 1) - i].marker = {}
-        options.series[(number_of_colors - 1) - i].marker.fillColor = "rgb(" + hexToRGB(this.props.config.color[(number_of_colors - 1) - i]).r.toString() + "," + hexToRGB(this.props.config.color[(number_of_colors - 1) - i]).g.toString() + "," + hexToRGB(this.props.config.color[(number_of_colors - 1) - i]).b.toString() + "," +"0.3)"
-
-        console.log(options.series[(number_of_colors - 1) - i].marker.fillColor)
-
-        options.series[(number_of_colors - 1) - i].marker.lineColor = this.props.config.color[(number_of_colors - 1) - i]
-        options.series[(number_of_colors - 1) - i].marker.lineWidth = 2
-
-        ///////////////////////
-
-        options.series[(number_of_colors - 1) - i].data = []
-    }
-
-    // For each of row of data in my result
-    formatedData.map(d => {
-
-        // var's find the bucket this piece of data belongs to
-        for(var i = 0; i < buckets.length; i++) {
-            if(d.probability < buckets[i]) {
-                options.series[i].data.push(d)
-                break
-            }
-        }
+    options.series.push({
+      name: "<100",
+      marker: {
+        fillColor: "rgb(48,219,224,0.3)",
+        lineColor: "#30dbe0",
+        lineWidth: 2
+      },
+      data: [...formatedData]
     })
 
-    //////////////////////////////////////////////////////////////////////////
-
-    // Format Options
     options.chart.height = document.documentElement.clientHeight - 50
-
-    // Now that we've created our data series, one for each bucket, var's put it all together by
-    // adding these series to the series in the attribute to the chart options
-    // BY THE END OF THIS CHAIN, WE SHOULD HAVE X NUMBER OF SERIES CORRESPONDING TO THE NUMBER OF PROBABILITY GROUPS
 
     return (
       <Container>
