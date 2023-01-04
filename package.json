@@ -15,9 +15,9 @@
   "private": true,
   "devDependencies": {
     "css-loader": "^3.0.0",
-    "to-string-loader": "^1.1.5",
+    "to-string-loader": "^1.2.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
-    "webpack": "^3.10.0",
+    "webpack": "^5.75.0",
     "webpack-dev-middleware": "^3.6.2",
     "webpack-dev-server": "^2.11.5",
     "webpack-hot-middleware": "^2.24.3"
